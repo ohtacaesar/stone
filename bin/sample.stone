@@ -1,0 +1,5 @@
+//comment
+a = 5
+b = a + 5
+c = a * 10
+puts "testtest test"

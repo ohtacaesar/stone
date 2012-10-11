@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
+require 'stone'
+
+reader = Stone::LineNumberReader.new(ARGV[0])
+lexer  = Stone::Lexer.new(reader)
+
+token = true
+while token != Stone::Token.EOF
+  token = lexer.read
+  puts token.get_text
+end
+
