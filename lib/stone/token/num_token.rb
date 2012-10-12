@@ -13,7 +13,7 @@ module Stone
     end
 
     def get_text
-      @value + ""
+      @value.to_s
     end
 
     def get_number
