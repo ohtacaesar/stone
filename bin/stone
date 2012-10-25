@@ -4,12 +4,6 @@ require 'stone'
 
 reader = Stone::LineNumberReader.new(ARGV[0])
 lexer  = Stone::Lexer.new(reader)
-
-token = true
-while token != Stone::Token.EOF
-#for i in 0..10
-  token = lexer.read
-  print "token => "
-  p token.get_text
-end
-
+parser = Stone::OpPrecedenceParser.new(lexer)
+tree   = parser.expression
+puts tree

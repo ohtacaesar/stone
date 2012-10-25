@@ -3,7 +3,6 @@ require 'strscan'
 
 module Stone
   class Lexer
-
     def initialize(reader = nil)
       @queue    = Array.new
       @has_more = true
@@ -13,7 +12,7 @@ module Stone
       @patterns[:comment] = /(\s*)(\/\/.*)/
       @patterns[:number]  = /(\s*)([0-9]+)/
       @patterns[:string]  = /(\s*)("(\"|\\|\n|[^"])*\")/
-      @patterns[:id]      = /(\s*)([A-Z_a-z][A-Z_a-z0-9]*|==|<=|>=|&&|\|\||=|\+|-|\*|\/)/
+      @patterns[:id]      = /(\s*)([A-Z_a-z][A-Z_a-z0-9]*|\(|\)|==|>|<|<=|>=|&&|\|\||=|\+|-|\*|\/)/
     end
 
     def set_reader(reader)
@@ -57,14 +56,17 @@ module Stone
       # puts "\n\nline = '#{line}'"
 
       string_scanner = StringScanner.new(line)
-      flag = false
+      flag = true
       while string_scanner.rest?
+        raise "Error not much" unless flag
+        flag = false
         # マッチしないと無限ループに
         @patterns.each do |key, value|
           if item = string_scanner.scan(value)
             item.strip!
             # puts "line_number => #{@reader.line_number.to_s}, item => #{item}, key => #{key.to_s}"
             self.add_token(@reader.line_number, item, key)
+            flag = true
             break
           end
         end
