@@ -1,0 +1,6 @@
+ //comment
+564 321
+a = 5
+b = a + 5
+c = a * 10
+puts "testtest test"
