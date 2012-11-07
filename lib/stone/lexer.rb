@@ -20,7 +20,7 @@ module Stone
     end
 
     def read
-      if self.fill_queue(0)
+      if fill_queue(0)
         @queue.shift
       else
         Token.EOF
@@ -28,7 +28,7 @@ module Stone
     end
 
     def peek(i)
-      if self.fill_queue(i)
+      if fill_queue(i)
         @queue[i]
       else
         Token.EOF
@@ -38,7 +38,7 @@ module Stone
     def fill_queue(i)
       while i >= @queue.size
         if @has_more
-          self.readline
+          readline
         else
           return false
         end
@@ -60,12 +60,10 @@ module Stone
       while string_scanner.rest?
         raise "Error not much" unless flag
         flag = false
-        # マッチしないと無限ループに
         @patterns.each do |key, value|
           if item = string_scanner.scan(value)
             item.strip!
-            # puts "line_number => #{@reader.line_number.to_s}, item => #{item}, key => #{key.to_s}"
-            self.add_token(@reader.line_number, item, key)
+            add_token(@reader.line_number, item, key)
             flag = true
             break
           end
