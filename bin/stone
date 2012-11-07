@@ -4,6 +4,6 @@ require 'stone'
 
 reader = Stone::LineNumberReader.new(ARGV[0])
 lexer  = Stone::Lexer.new(reader)
-parser = Stone::OpPrecedenceParser.new(lexer)
+parser = Stone::ExprParser.new(lexer)
 tree   = parser.expression
 puts tree
