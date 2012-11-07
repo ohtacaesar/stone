@@ -9,4 +9,3 @@ require 'stone/ast/number_literal'
 require 'stone/ast/binary_expr'
 
 require 'stone/expr_parser'
-require 'stone/op_precedence_parser'
