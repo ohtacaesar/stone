@@ -52,8 +52,8 @@ module Stone
         @has_more = false
         return
       end
+      puts line
       line.chomp!
-      puts "#{line}\n"
 
       string_scanner = StringScanner.new(line)
       flag = true
