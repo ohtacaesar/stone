@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 module Stone
   module Ast
-    TRUE = 1  
+    TRUE = 1
     FALSE = 0    
     
     class AstTree
@@ -37,54 +37,28 @@ module Stone
       end
     end
     
-    class NegativeExpr
-      def eval(env)
-        value = self.operand.eval(env)
-        
-        if value.is_a?(Integer)
-          -(v.to_i)
-        else
-          raise 'bad type for - '
-        end
-      end
-    end
-  
     class BinaryExpr
       def eval(env)
-        op = self.operator  
+        op = self.operator
         # javaのequalsはRubyの==と同じ. 値が等しいかどうかを調べる.
         if "=" == op
           right = self.right.eval(env)
-          return ComputeAssign.new(env, right)
+          return comput_number(env, right)
         else
           left = self.left.eval(env)
           right = self.right.eval(env)
-          return ComputeOp.new(left, op, right)
+          return compute_op(left, op, right)
         end
       end
-    end
 
-    class ComputeAssign
-      
-      def initialize(env, rvalue)
-        @list = self.left
-      end
-      
-      if @list.is_a?(Name)
-        env.put(@list.name, rvalue)
-        return rvalue
-      else
-        # 例外処理
-      end
-    end
-    
-    class ComputeOp
-      def initialize(left, op, right)
-        if (left.is_a?(Integer) and right.is_a?(Integer))
-          return ComputeNumber.new(left.to_i, op, right.to_i)
+      def compute_op(left, op, right)
+        if (left.kind_of?(Integer) and right.kind_of?(Integer))
+          return compute_number(left.to_i, op, right.to_i)
         else
           if op == "+"
             return left.to_s + right.to_s
+          elsif op == "*"
+            return left.to_s * right.to_s
           elsif op == "=="
             if left == nil
               if right == nil then TRUE else FALSE end
@@ -96,32 +70,28 @@ module Stone
           end
         end
       end
-    end
-    
-    class ComputeNumber
-      def initialize(left, op, right)
-        @left = left
-        @op = op
-        @right = right
-      end
-      a = @left.to_i
-      b = @right.to_i
       
-      case @op
-        when "+" then a + b
-        when "-" then a - b
-        when "*" then a * b
-        when "/" then a / b
-        when "%" then a % b
-        when "=="
-          if a == b then TRUE else FALSE end
-        when ">"
-          if a > b then TRUE else FALSE end
-        when "<"
-          if a < b then TRUE else FALSE end
-        else
-          # caseのelseはswitchのdefaultと一緒
-          # 例外処理
+      
+      def compute_number(left, op, right)
+        a = left
+        b = right
+        
+        case op
+          when "+" then return a + b
+          when "-" then return a - b
+          when "*" then return a * b
+          when "/" then return a / b
+          when "%" then return a % b
+          when "=="
+            if a == b then return TRUE else return FALSE end
+          when ">"
+            if a > b then return TRUE else return FALSE end
+          when "<"
+            if a < b then return TRUE else return FALSE end
+          else
+            # caseのelseはswitchのdefaultと一緒
+            # 例外処理
+        end
       end
     end
   end
