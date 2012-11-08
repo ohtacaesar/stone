@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << File.dirname(__FILE__) + '/../lib'
+require 'stone'
+
+def run(lexer, parser, basic_env)
+  tree = parser.program
+  puts tree.class
+  puts tree
+  
+  r = tree.eval(basic_env)
+  print "=>"
+  p r
+end
+
+reader = Stone::LineNumberReader.new(ARGV[0])
+lexer  = Stone::Lexer.new(reader)
+parser = Stone::ExprParser.new(lexer)
+tree = parser.program
+
+puts tree.class
+puts tree
+
+basic_env = Stone::BasicEnv.new
+
+run(lexer, parser, basic_env)
+
