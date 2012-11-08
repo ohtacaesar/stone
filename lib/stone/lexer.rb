@@ -12,7 +12,7 @@ module Stone
       @patterns[:comment] = /(\s*)(\/\/.*)/
       @patterns[:number]  = /(\s*)([0-9]+)/
       @patterns[:string]  = /(\s*)("(\"|\\|\n|[^"])*\")/
-      @patterns[:id]      = /(\s*)([A-Z_a-z][A-Z_a-z0-9]*|\(|\)|==|>|<|<=|>=|&&|\|\||=|\+|-|\*|\/)/
+      @patterns[:id]      = /(\s*)([A-Z_a-z][A-Z_a-z0-9]*|;|\(|\)|{|}|==|>|<|<=|>=|&&|\|\||=|\+|-|\*|\/)/
     end
 
     def set_reader(reader)
@@ -53,7 +53,7 @@ module Stone
         return
       end
       line.chomp!
-      # puts "\n\nline = '#{line}'"
+      puts "#{line}\n"
 
       string_scanner = StringScanner.new(line)
       flag = true
