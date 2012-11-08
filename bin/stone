@@ -6,4 +6,5 @@ reader = Stone::LineNumberReader.new(ARGV[0])
 lexer  = Stone::Lexer.new(reader)
 parser = Stone::ExprParser.new(lexer)
 tree   = parser.program
+
 puts tree
