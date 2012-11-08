@@ -5,7 +5,6 @@ module Stone
   module Ast
     class AstLeaf < AstTree
       @@empty = []
-
       attr_reader :token
 
       def initialize(token)

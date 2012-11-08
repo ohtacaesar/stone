@@ -7,8 +7,7 @@ reader = Stone::LineNumberReader.new(ARGV[0])
 lexer  = Stone::Lexer.new(reader)
 parser = Stone::ExprParser.new(lexer)
 
-puts "\n####################\n# これが\n####################\n\n"
-tree   = parser.program
-puts "\n####################\n# こうなる\n####################\n\n"
-puts tree
-puts "\n\n"
+while lexer.peek(0) != Stone::Token.EOF
+  tree = parser.program
+  puts tree
+end

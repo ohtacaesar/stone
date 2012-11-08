@@ -52,7 +52,6 @@ module Stone
         @has_more = false
         return
       end
-      puts line
       line.chomp!
 
       string_scanner = StringScanner.new(line)
@@ -82,7 +81,7 @@ module Stone
       when :id
         token = IdToken.new(line_number, match_data)
       end
-      @queue << token unless token == nil
+      @queue << token if token
     end
   end
 end

@@ -5,7 +5,7 @@ module Stone
     class Precedence
       attr :value, :left_assoc
       def initialize(v, a)
-        @value = v
+        @value      = v
         @left_assoc = a
       end
     end
@@ -56,7 +56,6 @@ module Stone
       end
     end
 
-
     def primary
       if is_token?("(")
         token("(")
@@ -102,10 +101,10 @@ module Stone
     def block
       list = []
       token("{")
-      list << statement unless is_token?(";") || is_token?("\n")
+      list << statement unless is_eol?
       while ! is_token?("}")
         @lexer.read
-        list << statement unless is_token?(";") || is_token?("\n") || is_token?("}")
+        list << statement unless is_eol? || is_token?("}")
       end
       token("}")
       Ast::AstList.new(list)
@@ -136,8 +135,8 @@ module Stone
     end
 
     def program
-      s = statement unless is_token?("\n") || is_token?(";")
-      if is_token?("\n") || is_token?(";")
+      s = statement unless is_eol?
+      if is_eol?
         @lexer.read
       else
         raise "Parse Exception in program"
@@ -155,6 +154,10 @@ module Stone
     def is_token?(name)
       token = @lexer.peek(0)
       token.is_identifier? && name == token.get_text
+    end
+
+    def is_eol?
+      is_token?(";") || is_token?("\n")
     end
   end
 end
