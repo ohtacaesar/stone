@@ -7,8 +7,8 @@ module Stone
         super(token)
       end
 
-      def name
-        token.get_text
+      def value
+        token.get_number
       end
     end
 
