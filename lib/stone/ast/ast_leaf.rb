@@ -16,10 +16,6 @@ module Stone
         raise "IndexOutOfBoundsException"
       end
 
-      def num_children
-        0
-      end
-
       def children
         @@empty
       end

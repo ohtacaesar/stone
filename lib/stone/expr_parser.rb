@@ -15,6 +15,7 @@ module Stone
     def initialize(lexer)
       @lexer = lexer
       @operators = {}
+      @operators["="]  = Precedence.new(0, true)
       @operators["<"]  = Precedence.new(1, true)
       @operators["<="] = Precedence.new(1, true)
       @operators[">"]  = Precedence.new(1, true)
@@ -26,7 +27,6 @@ module Stone
       @operators["*"]  = Precedence.new(3, true)
       @operators["/"]  = Precedence.new(3, true)
       @operators["^"]  = Precedence.new(4, false)
-      @operators["="]  = Precedence.new(4, false)
     end
 
     def do_shift(left, prec)
@@ -65,7 +65,6 @@ module Stone
         return e
       else
         token = @lexer.read
-        p token
         if token.is_number?
           return Ast::NumberLiteral.new(token)
         elsif token.is_identifier?
@@ -137,14 +136,13 @@ module Stone
     end
 
     def program
-      list = []
-      list << statement unless is_token?("\n") || is_token?(";")
+      s = statement unless is_token?("\n") || is_token?(";")
       if is_token?("\n") || is_token?(";")
         @lexer.read
       else
         raise "Parse Exception in program"
       end
-      Ast::AstList.new(list)
+      s
     end
 
     def token(name)
