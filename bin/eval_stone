@@ -1,16 +1,31 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 $LOAD_PATH << File.dirname(__FILE__) + '/../lib'
 require 'stone'
 
 reader = Stone::LineNumberReader.new(ARGV[0])
 lexer  = Stone::Lexer.new(reader)
 parser = Stone::ExprParser.new(lexer)
-tree = parser.program
-puts tree.class
-puts tree
-
 basic_env = Stone::BasicEnv.new
-r = tree.eval(basic_env)
-print "=>"
-p r
+
+puts "############"
+puts "## これが ##"
+puts "############"
+File.open(ARGV[0]) do |file|
+  puts file.readlines
+end
+
+puts "\n##############"
+puts "## こうなる ##"
+puts "##############"
+while lexer.peek(0) != Stone::Token.EOF
+  tree = parser.parse
+  puts tree
+  p tree.class
+  r = tree.eval(basic_env)
+  print "=>"
+  p r
+end
+
+
 
