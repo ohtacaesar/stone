@@ -126,9 +126,9 @@ module Stone
     
     class IfStmnt
       def eval(env)
-        # condition()ってなんだ
-        condition = condition().eval(env)
-        if ((condition.kind_of?(Integer)) and (condition.get_value != FALSE))
+        condition = self.condition().eval(env)
+
+        if condition == TRUE
           self.then_block().eval(env)
         else
           block = self.else_block()
