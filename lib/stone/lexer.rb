@@ -80,6 +80,8 @@ module Stone
         token = StrToken.new(line_number, match_data)
       when :id
         token = IdToken.new(line_number, match_data)
+      else
+x
       end
       @queue << token if token
     end
