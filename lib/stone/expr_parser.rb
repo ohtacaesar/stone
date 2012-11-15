@@ -109,7 +109,6 @@ module Stone
       token("}")
 
       Ast::BlockStmnt.new(list)
-      # Ast::AstList.new(list)
     end
 
     def simple
@@ -122,6 +121,9 @@ module Stone
         list << Ast::AstLeaf.new(@lexer.read)
         list << expr
         list << block
+        while is_token?("\n")
+          @lexer.read
+        end
         if is_token?("else")
           list << Ast::AstLeaf.new(@lexer.read)
           list << block
@@ -135,7 +137,6 @@ module Stone
       else
         return simple
       end
-      # Ast::AstList.new(list)
     end
 
     # 関数名をprogramからparseに変更（笹本）
@@ -144,7 +145,7 @@ module Stone
       if is_eol?
         @lexer.read
       else
-        raise "Parse Exception in program"
+        raise "Parse Exception in parse"
       end
       s
     end
