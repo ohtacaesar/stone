@@ -19,15 +19,15 @@ module Stone
       end
       
       def condition
-        self.child(0)
-      end
-      
-      def then_block
         self.child(1)
       end
       
+      def then_block
+        self.child(2)
+      end
+      
       def else_block
-        self.num_children > 2 ? child(2) : nil
+        self.num_children > 2 ? child(3) : nil
       end
     end
 
