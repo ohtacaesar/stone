@@ -139,7 +139,6 @@ module Stone
       end
     end
 
-    # 関数名をprogramからparseに変更（笹本）
     def parse
       s = statement unless is_eol?
       if is_eol?
