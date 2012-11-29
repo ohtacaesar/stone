@@ -65,11 +65,11 @@ module Stone
       else
         token = @lexer.read
         if token.is_number?
-          return Ast::NumberLiteral.new(token)
+          Ast::NumberLiteral.new(token)
         elsif token.is_identifier?
-          return Ast::IdentifierLiteral.new(token)
+          Ast::IdentifierLiteral.new(token)
         elsif token.is_string?
-          return Ast::StringLiteral.new(token)
+          Ast::StringLiteral.new(token)
         else
           raise "Parse Exception in primary"
         end
@@ -107,7 +107,8 @@ module Stone
         list << statement unless is_eol? || is_token?("}")
       end
       token("}")
-      Ast::AstList.new(list)
+
+      Ast::BlockStmnt.new(list)
     end
 
     def simple
@@ -120,26 +121,31 @@ module Stone
         list << Ast::AstLeaf.new(@lexer.read)
         list << expr
         list << block
+        while is_token?("\n")
+          @lexer.read
+        end
         if is_token?("else")
           list << Ast::AstLeaf.new(@lexer.read)
           list << block
         end
+        Ast::IfStmnt.new(list)
       elsif is_token?("while")
         list << Ast::AstLeaf.new(@lexer.read)
         list << expr
         list << block
+        Ast::WhileStmnt.new(list)
       else
         return simple
       end
-      Ast::AstList.new(list)
     end
 
-    def program
+    # 関数名をprogramからparseに変更（笹本）
+    def parse
       s = statement unless is_eol?
       if is_eol?
         @lexer.read
       else
-        raise "Parse Exception in program"
+        raise "Parse Exception in parse"
       end
       s
     end

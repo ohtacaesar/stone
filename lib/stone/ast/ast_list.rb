@@ -23,6 +23,10 @@ module Stone
         result = result + ")"
       end
 
+      def num_children
+        @children.size
+      end
+
       def location
         @children.each do |child|
           if location = child.location
