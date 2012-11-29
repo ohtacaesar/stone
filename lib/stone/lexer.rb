@@ -59,7 +59,7 @@ module Stone
       while string_scanner.rest?
         # patternのいずれにもマッチしないでeach文が終わるとmatch_flagがfalseのままなので
         # エラーを発生させる
-        raise "Error not much" unless flag
+        raise "Error not much" unless match_flag
         match_flag = false
         @patterns.each do |key, value|
           if item = string_scanner.scan(value)
