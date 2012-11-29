@@ -23,7 +23,7 @@ module Stone
       if fill_queue(0)
         @queue.shift
       else
-        Token.EOF
+        Stone::Token.EOF
       end
     end
 
@@ -31,14 +31,14 @@ module Stone
       if fill_queue(i)
         @queue[i]
       else
-        Token.EOF
+        Stone::Token.EOF
       end
     end
 
     def fill_queue(i)
       while i >= @queue.size
         if @has_more
-          readline
+          self.readline
         else
           return false
         end
@@ -55,19 +55,23 @@ module Stone
       line.chomp!
 
       string_scanner = StringScanner.new(line)
-      flag = true
+      match_flag = true
       while string_scanner.rest?
+        # patternのいずれにもマッチしないでeach文が終わるとmatch_flagがfalseのままなので
+        # エラーを発生させる
         raise "Error not much" unless flag
-        flag = false
+        match_flag = false
         @patterns.each do |key, value|
           if item = string_scanner.scan(value)
             item.strip!
+            # line_numberの初期値は1（0だけど、read_lineした時点で+1されるから）
             add_token(@reader.line_number, item, key)
-            flag = true
+            match_flag = true
             break
           end
         end
       end
+      # 一番最後にEOFを追加
       @queue << IdToken.new(@reader.line_number, Token.EOL)
     end
 
@@ -80,6 +84,10 @@ module Stone
         token = StrToken.new(line_number, match_data)
       when :id
         token = IdToken.new(line_number, match_data)
+      when :comment
+        # コメントは読み飛ばすから何もしない
+      else
+        raise "undefined patterns[:key]"
       end
       @queue << token if token
     end
