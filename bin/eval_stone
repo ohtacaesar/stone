@@ -1,16 +1,34 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 $LOAD_PATH << File.dirname(__FILE__) + '/../lib'
 require 'stone'
 
 reader = Stone::LineNumberReader.new(ARGV[0])
 lexer  = Stone::Lexer.new(reader)
 parser = Stone::ExprParser.new(lexer)
-tree = parser.program
-puts tree.class
-puts tree
-
 basic_env = Stone::BasicEnv.new
-r = tree.eval(basic_env)
-print "=>"
-p r
+
+puts "############"
+puts "## これが ##"
+puts "############"
+
+# reader.textには引数のファイルの中身が配列で入ってる
+reader.text.each do |line|
+  puts line
+end
+
+puts "\n##############"
+puts "## こうなる ##"
+puts "##############"
+while lexer.peek(0) != Stone::Token.EOF
+  tree = parser.parse
+  puts tree
+  if tree
+    r = tree.eval(basic_env)
+    print "=>"
+    p r
+  end
+end
+
+
 
