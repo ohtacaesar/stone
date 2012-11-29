@@ -11,8 +11,10 @@ basic_env = Stone::BasicEnv.new
 puts "############"
 puts "## これが ##"
 puts "############"
-File.open(ARGV[0]) do |file|
-  puts file.readlines
+
+# reader.textには引数のファイルの中身が配列で入ってる
+reader.text.each do |line|
+  puts line
 end
 
 puts "\n##############"
@@ -21,7 +23,6 @@ puts "##############"
 while lexer.peek(0) != Stone::Token.EOF
   tree = parser.parse
   puts tree
-  p tree.class
   if tree
     r = tree.eval(basic_env)
     print "=>"
