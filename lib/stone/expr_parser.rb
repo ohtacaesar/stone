@@ -90,12 +90,6 @@ module Stone
         right = do_shift(right, n.value)
       end
       right
-
-      #left = factor
-      #while is_token?("+") || is_token?("-") || is_token?("=") || is_token?("==")
-      #  left = Ast::BinaryExpr.new([left, Ast::AstLeaf.new(@lexer.read), factor])
-      #end
-      #left
     end
 
     def block
@@ -117,6 +111,7 @@ module Stone
 
     def statement
       list = []
+      # lexer.peek(0)して、それが引数の中身と一致するかどうか
       if is_token?("if")
         list << Ast::AstLeaf.new(@lexer.read)
         list << expr
