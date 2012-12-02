@@ -8,6 +8,6 @@ lexer  = Stone::Lexer.new(reader)
 parser = Stone::ExprParser.new(lexer)
 
 while lexer.peek(0) != Stone::Token.EOF
-  tree = parser.program
-  puts tree
+  tree = parser.parse
+  puts tree if tree
 end
