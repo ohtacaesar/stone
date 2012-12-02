@@ -2,35 +2,35 @@
 module Stone
   module Ast
     TRUE = 1
-    FALSE = 0    
-    
+    FALSE = 0
+
     class AstTree
       def eval(env)
-      end   
+      end
     end
-    
+
     class AstList
       def eval(env)
       end
     end
-    
+
     class AstLeaf
       def eval(env)
       end
     end
-    
+
     class NumberLiteral
       def eval(env)
         self.value
       end
     end
-    
+
     class StringLiteral
       def eval(env)
         self.value
       end
     end
-    
+
     class IdentifierLiteral
       def eval(env)
         value = env.get(self.name)
@@ -53,7 +53,7 @@ module Stone
         end
       end
     end
-    
+
     class BinaryExpr
       def eval(env)
         op = self.operator
