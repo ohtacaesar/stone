@@ -12,4 +12,4 @@ require 'stone/ast/expr'
 require 'stone/basic_env'
 require 'stone/basic_evaluator'
 
-require 'stone/expr_parser'
+require 'stone/parser'
