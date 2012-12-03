@@ -5,7 +5,7 @@ require 'stone'
 
 reader = Stone::LineNumberReader.new(ARGV[0])
 lexer  = Stone::Lexer.new(reader)
-parser = Stone::ExprParser.new(lexer)
+parser = Stone::Parser.new(lexer)
 
 while lexer.peek(0) != Stone::Token.EOF
   tree = parser.parse

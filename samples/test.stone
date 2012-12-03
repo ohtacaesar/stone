@@ -1,0 +1,9 @@
+def test(a) {
+		a = a + 1
+		while(a) {
+	      test(a - 1)
+		}
+}
+
+b = test(1)
+a = b + 1
