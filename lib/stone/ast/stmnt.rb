@@ -44,5 +44,27 @@ module Stone
         self.child(2)
       end
     end
+
+    class DefStmnt < AstList
+      def initialize(children)
+        super(children)
+      end
+      
+      def name
+        self.child(0).get_text
+      end
+      
+      def parameters
+        self.child(1)
+      end
+      
+      def body
+        self.child(2)
+      end
+      
+      def to_string
+        "(def " + self.name + " " + self.parameters + " " + self.body + ")"
+      end
+    end
   end
 end
