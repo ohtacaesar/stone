@@ -113,28 +113,31 @@ module Stone
     end
 
     def primary
-      list = []
+      e = nil
       if is_token?("(")
         token("(")
         e = expr
         token(")")
-        list << e
       else
         t = @lexer.read
         if t.is_number?
-          list << Ast::NumberLiteral.new(t)
+          e =  Ast::NumberLiteral.new(t)
         elsif t.is_identifier?
-          list << Ast::IdentifierLiteral.new(t)
+          e = Ast::IdentifierLiteral.new(t)
         elsif t.is_string?
-          list << Ast::StringLiteral.new(t)
+          e = Ast::StringLiteral.new(t)
         else
           raise "Parse Exception in primary"
         end
       end
+      list = []
       while is_token?("(")
         list << postfix
       end
-      Ast::AstList.new(list)
+      if list.length > 0
+        e = Ast::AstList.new(list.unshift(e))
+      end
+      e
     end
 
     def factor
@@ -167,12 +170,12 @@ module Stone
     end
 
     def simple
-      list = []
-      list << expr
+      e = expr
       if is_token?("-") || is_token?("(")
-        list << args
+        Ast::AstList.new([e, args])
+      else
+        e
       end
-      Ast::AstList.new(list)
     end
 
     def statement
@@ -200,7 +203,7 @@ module Stone
     end
 
     def parse
-      result = Stone::Token.EOL
+      result = nil
       unless is_eol?
         if is_token?("def")
           result = function
