@@ -142,7 +142,8 @@ module Stone
 
     def factor
       if is_token?("-")
-        Ast::AstList.new([Ast::AstLeaf.new(@lexer.read), primary])
+        op = Ast::AstLeaf.new(token("-")) # -を読み飛ばしているだけのような
+        Ast::NegativeExpr.new([primary])
       else
         primary
       end

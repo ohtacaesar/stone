@@ -155,6 +155,5 @@ module Stone
         end
       end
     end
- 
   end
 end
