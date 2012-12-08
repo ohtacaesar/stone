@@ -6,3 +6,6 @@ def fact (n) {
     }
     f
 }
+
+fact(3)
+
