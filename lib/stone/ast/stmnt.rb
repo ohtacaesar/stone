@@ -63,7 +63,6 @@ module Stone
       end
 
       def to_s
-        p self.parameters.class
         "(def " + self.name + " " + self.parameters + " " + self.body + ")"
       end
     end
