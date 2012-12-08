@@ -51,18 +51,19 @@ module Stone
       end
       
       def name
-        self.child(0).get_text
+        self.child(0).name
       end
       
       def parameters
-        self.child(1)
+        self.child(1).to_s
       end
       
       def body
-        self.child(2)
+        self.child(2).to_s
       end
-      
-      def to_string
+
+      def to_s
+        p self.parameters.class
         "(def " + self.name + " " + self.parameters + " " + self.body + ")"
       end
     end

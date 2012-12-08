@@ -88,7 +88,7 @@ module Stone
       token("def")
       t = @lexer.read
       if t.is_identifier?
-        Ast::AstList.new([Ast::IdentifierLiteral.new(t), param_list, block])
+        Ast::DefStmnt.new([Ast::IdentifierLiteral.new(t), param_list, block])
       else
         raise "Parse Error in def"
       end
