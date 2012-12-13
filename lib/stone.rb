@@ -8,8 +8,12 @@ require 'stone/ast/ast_list'
 require 'stone/ast/literal'
 require 'stone/ast/stmnt'
 require 'stone/ast/expr'
+require 'stone/ast/parameter_list'
 
 require 'stone/basic_env'
 require 'stone/basic_evaluator'
+
+require 'stone/function.rb'
+require 'stone/nested_env.rb'
 
 require 'stone/parser'
