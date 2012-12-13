@@ -73,6 +73,7 @@ module Stone
         list << param
       end
       Ast::AstList.new(list)
+      # Ast::ParameterList.new(list)
     end
 
     def param_list
@@ -88,7 +89,7 @@ module Stone
       token("def")
       t = @lexer.read
       if t.is_identifier?
-        Ast::AstList.new([Ast::IdentifierLiteral.new(t), param_list, block])
+        Ast::DefStmnt.new([Ast::IdentifierLiteral.new(t), param_list, block])
       else
         raise "Parse Error in def"
       end
@@ -130,19 +131,30 @@ module Stone
           raise "Parse Exception in primary"
         end
       end
+
       list = []
       while is_token?("(")
         list << postfix
       end
+
+      #if is_token?("(")
+      #  right = postfix
+      #  Ast::PrimaryExpr.new([left, right])
+      #else
+      #  Ast::PrimaryExpr.new([left])
+      #end
+
       if list.length > 0
         e = Ast::AstList.new(list.unshift(e))
       end
+
       e
     end
 
     def factor
       if is_token?("-")
-        Ast::AstList.new([Ast::AstLeaf.new(@lexer.read), primary])
+        op = Ast::AstLeaf.new(token("-")) # -を読み飛ばしているだけのような
+        Ast::NegativeExpr.new([primary])
       else
         primary
       end

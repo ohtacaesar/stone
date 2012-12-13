@@ -29,9 +29,17 @@ module Stone
         self.child(0)
       end
 
-      def to_string
-        "-" + operand
+      def to_s
+        "-" + operand.to_s
       end
+    end
+
+    class PrimaryExpr < AstList
+      def initialize(list)
+        super(list)
+      end
+
+      
     end
   end
 end
