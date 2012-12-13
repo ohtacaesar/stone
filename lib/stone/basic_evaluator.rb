@@ -113,6 +113,12 @@ module Stone
         end
       end
     end
+
+    # なんか教科書だと5章でこんなのつくってる、から7章でこれのevalを追加しようとしてる。
+    # class PrimaryExpr 
+    #   def eval
+    #   end
+    # end
     
     class BlockStmnt
       def eval(env)
@@ -155,5 +161,25 @@ module Stone
         end
       end
     end
+
+    class DefStmnt
+      def eval(env)
+        f = Stone::Function.new(parameters, body, env)
+        env.put(name, f)
+        name
+      end
+    end
+
+    class PostFix
+      def eval(env, value)
+      end
+    end
+
+    class ParameterList
+      def eval(env, index, value)
+        env.put(name(index), value)
+      end
+    end
+    
   end
 end
