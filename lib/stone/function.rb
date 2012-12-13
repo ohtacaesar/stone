@@ -1,15 +1,8 @@
 # -*- coding: utf-8 -*-
-require 'ast/block_stmnt'
-require 'ast/parameter_list'
-
 module Stone
   class Function
     attr :parameters, :body
-
-    @parameters = ParameterList.new
-    @body = BlockStmnt.new
-    @env = nil
-
+    
     def initialize(params, body, env)
       @parameters = params
       @body = body
@@ -17,7 +10,7 @@ module Stone
     end
 
     def make_env
-      NestedEnv.new(@env)
+      Ast::NestedEnv.new(@env)
     end
 
     def to_string

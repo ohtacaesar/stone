@@ -73,6 +73,7 @@ module Stone
         list << param
       end
       Ast::AstList.new(list)
+      # Ast::ParameterList.new(list)
     end
 
     def param_list
@@ -130,13 +131,23 @@ module Stone
           raise "Parse Exception in primary"
         end
       end
+
       list = []
       while is_token?("(")
         list << postfix
       end
+
+      #if is_token?("(")
+      #  right = postfix
+      #  Ast::PrimaryExpr.new([left, right])
+      #else
+      #  Ast::PrimaryExpr.new([left])
+      #end
+
       if list.length > 0
         e = Ast::AstList.new(list.unshift(e))
       end
+
       e
     end
 

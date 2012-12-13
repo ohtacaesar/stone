@@ -33,5 +33,13 @@ module Stone
         "-" + operand.to_s
       end
     end
+
+    class PrimaryExpr < AstList
+      def initialize(list)
+        super(list)
+      end
+
+      
+    end
   end
 end
