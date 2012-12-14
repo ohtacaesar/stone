@@ -19,19 +19,19 @@ module Stone
       end
 
       def condition
-        self.child(0).to_s
+        self.child(0)
       end
 
       def then_block
-        self.child(1).to_s
+        self.child(1)
       end
 
       def else_block
-        self.num_children > 2 ? child(2).to_s : "null"
+        self.num_children > 2 ? child(2) : nil
       end
 
       def to_s
-        "(if " + condition + " " + then_block + " else" + else_block + ")"
+        "(if " + condition.to_s + " " + then_block.to_s + " else" + else_block.to_s + ")"
       end
     end
 
@@ -41,15 +41,15 @@ module Stone
       end
 
       def condition
-        self.child(0).to_s
+        self.child(0)
       end
 
       def body
-        self.child(1).to_s
+        self.child(1)
       end
 
       def to_s
-        "(while " + condition + " " + body + ")"
+        "(while " + condition.to_s + " " + body.to_s + ")"
       end
     end
 
@@ -63,15 +63,15 @@ module Stone
       end
 
       def parameters
-        self.child(1).to_s
+        self.child(1)
       end
 
       def body
-        self.child(2).to_s
+        self.child(2)
       end
 
       def to_s
-        "(def " + self.name + " " + self.parameters + " " + self.body + ")"
+        "(def " + self.name + " " + self.parameters.to_s + " " + self.body.to_s + ")"
       end
     end
   end
