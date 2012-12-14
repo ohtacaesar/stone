@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+
 module Stone
   module Ast
-    TRUE = 1
+    TRUE  = 1
     FALSE = 0
 
     class AstTree
@@ -47,7 +48,7 @@ module Stone
       def eval(env)
         value = operand().eval(env)
         if value.kind_of?(Integer)
-          value * (-1)
+          -value
         else
           # 例外処理
         end
@@ -87,12 +88,11 @@ module Stone
           # 右辺か左辺が変数だった時？
         end
       end
-      
-      
+
       def compute_number(left, op, right)
         a = left
         b = right
-        
+
         case op
           when "+" then return a + b
           when "-" then return a - b
@@ -115,11 +115,10 @@ module Stone
     end
 
     # なんか教科書だと5章でこんなのつくってる、から7章でこれのevalを追加しようとしてる。
-    # class PrimaryExpr 
+    # class PrimaryExpr
     #   def eval
     #   end
     # end
-    
     class BlockStmnt
       def eval(env)
         result = 0

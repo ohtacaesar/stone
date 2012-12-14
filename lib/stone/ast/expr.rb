@@ -3,8 +3,8 @@
 module Stone
   module Ast
     class BinaryExpr < AstList
-      def initialize(list)
-        super(list)
+      def initialize(array)
+        super(array)
       end
 
       def left
@@ -21,10 +21,10 @@ module Stone
     end
 
     class NegativeExpr < AstList
-      def initialize(list)
-        super(list)
+      def initialize(array)
+        super(array)
       end
-      
+
       def operand
         self.child(0)
       end
@@ -35,11 +35,13 @@ module Stone
     end
 
     class PrimaryExpr < AstList
-      def initialize(list)
-        super(list)
+      def initialize(array)
+        super(array)
       end
 
-      
+      def self.create(array)
+        array.size == 1 ? array[0] : PrimaryExpr.new(array)
+      end
     end
   end
 end

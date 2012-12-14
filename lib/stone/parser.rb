@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+require 'stone/ast/postfix'
+require 'stone/ast/arguments'
+require 'stone/ast/parameter_list'
+
 module Stone
   class Parser
     class Precedence
@@ -66,14 +70,13 @@ module Stone
     end
 
     def params
-      list = []
-      list << param
+      array = []
+      array << param
       while is_token?(",")
         token(",")
-        list << param
+        array << param
       end
-      Ast::AstList.new(list)
-      # Ast::ParameterList.new(list)
+      Ast::ParameterList.new(array)
     end
 
     def param_list
@@ -85,7 +88,7 @@ module Stone
     end
 
     def function
-      list = []
+      array = []
       token("def")
       t = @lexer.read
       if t.is_identifier?
@@ -96,13 +99,13 @@ module Stone
     end
 
     def args
-      list = []
-      list << expr
+      array = []
+      array << expr
       while is_token?(",")
         token(",")
-        list << expr
+        array << expr
       end
-      Ast::AstList.new(list)
+      Ast::Arguments.new(array)
     end
 
     def postfix
@@ -114,49 +117,35 @@ module Stone
     end
 
     def primary
-      e = nil
+      array = []
       if is_token?("(")
         token("(")
-        e = expr
+        array << expr
         token(")")
       else
         t = @lexer.read
         if t.is_number?
-          e =  Ast::NumberLiteral.new(t)
+          array << Ast::NumberLiteral.new(t)
         elsif t.is_identifier?
-          e = Ast::IdentifierLiteral.new(t)
+          array << Ast::IdentifierLiteral.new(t)
         elsif t.is_string?
-          e = Ast::StringLiteral.new(t)
+          array << Ast::StringLiteral.new(t)
         else
           raise "Parse Exception in primary"
         end
       end
-
-      list = []
       while is_token?("(")
-        list << postfix
+        array << postfix
       end
-
-      #if is_token?("(")
-      #  right = postfix
-      #  Ast::PrimaryExpr.new([left, right])
-      #else
-      #  Ast::PrimaryExpr.new([left])
-      #end
-
-      if list.length > 0
-        e = Ast::AstList.new(list.unshift(e))
-      end
-
-      e
+      array
     end
 
     def factor
       if is_token?("-")
-        op = Ast::AstLeaf.new(token("-")) # -を読み飛ばしているだけのような
-        Ast::NegativeExpr.new([primary])
+        token("-")
+        Ast::NegativeExpr.new(primary)
       else
-        primary
+        Ast::PrimaryExpr.create(primary)
       end
     end
 
@@ -169,16 +158,17 @@ module Stone
     end
 
     def block
-      list = []
+      array = []
       token("{")
-      list << statement unless is_eol?
       while ! is_token?("}")
-        @lexer.read
-        list << statement unless is_eol? || is_token?("}")
+        while is_eol?
+          @lexer.read
+        end
+        array << statement unless is_token?("}")
       end
       token("}")
 
-      Ast::BlockStmnt.new(list)
+      Ast::BlockStmnt.new(array)
     end
 
     def simple
@@ -191,24 +181,20 @@ module Stone
     end
 
     def statement
-      list = []
       if is_token?("if")
-        list << Ast::AstLeaf.new(@lexer.read)
-        list << expr
-        list << block
-        while is_token?("\n")
+        token("if")
+        array = [expr, block]
+        while is_eol?
           @lexer.read
         end
         if is_token?("else")
-          list << Ast::AstLeaf.new(@lexer.read)
-          list << block
+          token("else")
+          array << block
         end
-        Ast::IfStmnt.new(list)
+        Ast::IfStmnt.new(array)
       elsif is_token?("while")
-        list << Ast::AstLeaf.new(@lexer.read)
-        list << expr
-        list << block
-        Ast::WhileStmnt.new(list)
+        token("while")
+        Ast::WhileStmnt.new([expr, block])
       else
         return simple
       end

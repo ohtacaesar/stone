@@ -48,7 +48,7 @@ module Stone
 
     def readline
       line = @reader.read_line
-      if line == nil
+      if line == nilx
         @has_more = false
         return
       end
@@ -57,21 +57,21 @@ module Stone
       string_scanner = StringScanner.new(line)
       match_flag = true
       while string_scanner.rest?
-        # patternã®ã„ãšã‚Œã«ã‚‚ãƒãƒƒãƒã—ãªã„ã§eachæ–‡ãŒçµ‚ã‚ã‚‹ã¨match_flagãŒfalseã®ã¾ã¾ãªã®ã§
-        # ã‚¨ãƒ©ãƒ¼ã‚’ç™ºç”Ÿã•ã›ã‚‹
+        # pattern’¤Î’¤¤’¤º’¤ì’¤Ë’¤â’¥Ş’¥Ã’¥Á’¤·’¤Ê’¤¤’¤Çeach’Ê¸’¤¬’½ª’¤ï’¤ë’¤Èmatch_flag’¤¬false’¤Î’¤Ş’¤Ş’¤Ê’¤Î’¤Ç
+        # ’¥¨’¥é’¡¼’¤ò’È¯’À¸’¤µ’¤»’¤ë
         raise "Error not much" unless match_flag
         match_flag = false
         @patterns.each do |key, value|
           if item = string_scanner.scan(value)
             item.strip!
-            # line_numberã®åˆæœŸå€¤ã¯1ï¼ˆ0ã ã‘ã©ã€read_lineã—ãŸæ™‚ç‚¹ã§+1ã•ã‚Œã‚‹ã‹ã‚‰ï¼‰
+            # line_number’¤Î’½é’´ü’ÃÍ’¤Ï1’¡Ê0’¤À’¤±’¤É’¡¢read_line’¤·’¤¿’»ş’ÅÀ’¤Ç+1’¤µ’¤ì’¤ë’¤«’¤é’¡Ë
             add_token(@reader.line_number, item, key)
             match_flag = true
             break
           end
         end
       end
-      # ä¸€ç•ªæœ€å¾Œã«EOFã‚’è¿½åŠ 
+      # ’°ì’ÈÖ’ºÇ’¸å’¤ËEOF’¤ò’ÄÉ’²Ã
       @queue << IdToken.new(@reader.line_number, Token.EOL)
     end
 
@@ -85,7 +85,7 @@ module Stone
       when :id
         token = IdToken.new(line_number, match_data)
       when :comment
-        # ã‚³ãƒ¡ãƒ³ãƒˆã¯èª­ã¿é£›ã°ã™ã‹ã‚‰ä½•ã‚‚ã—ãªã„
+        # ’¥³’¥á’¥ó’¥È’¤Ï’ÆÉ’¤ß’Èô’¤Ğ’¤¹’¤«’¤é’²¿’¤â’¤·’¤Ê’¤¤
       else
         raise "undefined patterns[:key]"
       end

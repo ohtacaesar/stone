@@ -1,6 +1,6 @@
 module Stone
   module Ast
-    class PostFix < AstList
+    class Postfix < AstList
       def initialize(children)
         super(children)
       end
