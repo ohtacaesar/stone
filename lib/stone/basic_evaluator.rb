@@ -128,7 +128,7 @@ module Stone
         result
       end
     end
-    
+
     class IfStmnt
       def eval(env)
         condition = self.condition().eval(env)
@@ -145,7 +145,7 @@ module Stone
         end
       end
     end
-    
+
     class WhileStmnt
       def eval(env)
         result = 0
@@ -179,6 +179,6 @@ module Stone
         env.put(name(index), value)
       end
     end
-    
+
   end
 end
