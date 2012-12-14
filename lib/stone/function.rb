@@ -2,7 +2,7 @@
 module Stone
   class Function
     attr :parameters, :body
-    
+
     def initialize(params, body, env)
       @parameters = params
       @body = body

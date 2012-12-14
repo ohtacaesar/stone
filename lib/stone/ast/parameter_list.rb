@@ -11,7 +11,7 @@ module Stone
 
       def size
         self.num_children
-      end    
+      end
     end
   end
 end

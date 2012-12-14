@@ -6,28 +6,32 @@ module Stone
         super(children)
       end
     end
-    
+
     class BlockStmnt < AstList
       def initialize(children)
         super(children)
       end
     end
-    
+
     class IfStmnt < AstList
       def initialize(children)
         super(children)
       end
-      
+
       def condition
-        self.child(1)
+        self.child(0).to_s
       end
-      
+
       def then_block
-        self.child(2)
+        self.child(1).to_s
       end
-      
+
       def else_block
-        self.num_children > 2 ? child(3) : nil
+        self.num_children > 2 ? child(2).to_s : "null"
+      end
+
+      def to_s
+        "(if " + condition + " " + then_block + " else" + else_block + ")"
       end
     end
 
@@ -35,13 +39,17 @@ module Stone
       def initialize(children)
         super(children)
       end
-      
+
       def condition
-        self.child(1)
+        self.child(0).to_s
       end
-      
+
       def body
-        self.child(2)
+        self.child(1).to_s
+      end
+
+      def to_s
+        "(while " + condition + " " + body + ")"
       end
     end
 
@@ -49,15 +57,15 @@ module Stone
       def initialize(children)
         super(children)
       end
-      
+
       def name
         self.child(0).name
       end
-      
+
       def parameters
         self.child(1).to_s
       end
-      
+
       def body
         self.child(2).to_s
       end
