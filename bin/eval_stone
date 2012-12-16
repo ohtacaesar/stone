@@ -24,7 +24,7 @@ while lexer.peek(0) != Stone::Token.EOF
   tree = parser.parse
   puts tree
   if tree
-    p tree.class
+    # p tree.class
     r = tree.eval(basic_env)
     print "=>"
     p r

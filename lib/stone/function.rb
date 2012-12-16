@@ -10,7 +10,7 @@ module Stone
     end
 
     def make_env
-      Ast::NestedEnv.new(@env)
+      NestedEnv.new(@env)
     end
 
     def to_string
