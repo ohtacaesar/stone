@@ -6,7 +6,7 @@ module Stone
       end
 
       def name(i)
-        self.child(i).get_text
+        self.child(i).token.get_text
       end
 
       def size

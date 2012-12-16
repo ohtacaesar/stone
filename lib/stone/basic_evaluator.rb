@@ -113,12 +113,7 @@ module Stone
         end
       end
     end
-
-    # なんか教科書だと5章でこんなのつくってる、から7章でこれのevalを追加しようとしてる。
-    # class PrimaryExpr
-    #   def eval
-    #   end
-    # end
+    
     class BlockStmnt
       def eval(env)
         result = 0
@@ -169,8 +164,60 @@ module Stone
       end
     end
 
-    class PostFix
+    class PrimaryExpr
+      def operand
+        self.child(0)
+      end
+      
+      def postfix(nest)
+        child(self.num_children - nest - 1)
+      end
+      
+      def has_postfix(nest)
+        self.num_children - nest > 1
+      end
+      
+      def eval(env)
+        eval_sub_expr(env, 0)
+      end
+      
+      def eval_sub_expr(env, nest)
+        if has_postfix(nest)
+          target = eval_sub_expr(env, nest + 1)
+          postfix(nest).eval(env, target)
+        else
+          operand.eval(env)
+        end
+      end
+    end
+    
+    class Postfix
       def eval(env, value)
+      end
+    end
+
+    class Arguments
+      def eval(caller_env, value)
+        unless value.kind_of?(Function)
+          # 例外投げるぽいよ
+        end
+        
+        func = value
+        params = func.parameters
+        
+        unless self.size == params.size
+          # ここも例外投げるぽいよ
+        end
+        
+        new_env = func.make_env
+        num = 0
+
+        self.children.each do |tree|
+          params.eval(new_env, num, tree.eval(caller_env))
+          num += 1
+        end
+        
+        func.body.eval(new_env)
       end
     end
 
@@ -179,6 +226,5 @@ module Stone
         env.put(name(index), value)
       end
     end
-
   end
 end

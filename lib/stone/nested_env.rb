@@ -14,16 +14,16 @@ module Stone
     end
     
     def get(name)
-      value = @value[name]
-      if (value == nil and outer != nil)
-        outer.get(name)
+      value = @values[name]
+      if (value == nil and @outer != nil)
+        @outer.get(name)
       else
         value
       end
     end
 
     def where(name)
-      if @values.get(name) != nil
+      if @values.key?(name) != nil
         self
       elsif outer == nil
         nil
