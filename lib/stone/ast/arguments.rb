@@ -4,7 +4,7 @@ module Stone
       def initialize(children)
         super(children)
       end
-
+      
       def size
         self.num_children
       end
