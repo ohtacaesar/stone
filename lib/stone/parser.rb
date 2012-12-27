@@ -20,17 +20,23 @@ module Stone
       @lexer = lexer
       @operators = {}
       @operators["="]  = Precedence.new(0, true)
+      @operators["は"] = Precedence.new(0, true)
       @operators["<"]  = Precedence.new(1, true)
       @operators["<="] = Precedence.new(1, true)
       @operators[">"]  = Precedence.new(1, true)
       @operators[">="] = Precedence.new(1, true)
       @operators["=="] = Precedence.new(1, true)
       @operators["!="] = Precedence.new(1, true)
-      @operators["+"]  = Precedence.new(2, true)
-      @operators["-"]  = Precedence.new(2, true)
-      @operators["*"]  = Precedence.new(3, true)
-      @operators["/"]  = Precedence.new(3, true)
-      @operators["^"]  = Precedence.new(4, false)
+      @operators["イコール"] = Precedence.new(1, true)
+      @operators["+"]     = Precedence.new(2, true)
+      @operators["足す"]  = Precedence.new(2, true)
+      @operators["-"]     = Precedence.new(2, true)
+      @operators["引く"]  = Precedence.new(2, true)
+      @operators["*"]     = Precedence.new(3, true)
+      @operators["かける"]= Precedence.new(3, true)
+      @operators["/"]     = Precedence.new(3, true)
+      @operators["割る"]  = Precedence.new(3, true)
+      @operators["^"]     = Precedence.new(4, false)
     end
 
     def do_shift(left, prec)
@@ -171,6 +177,20 @@ module Stone
       Ast::BlockStmnt.new(array)
     end
 
+    def block_japanese
+      array = []
+      token("ならば")
+      while ! is_token?("だ")
+        while is_eol?
+          @lexer.read
+        end
+        array << statement unless is_token?("だ")
+      end
+      token("だ")
+
+      Ast::BlockStmnt.new(array)
+    end
+
     def simple
       e = expr
       if is_token?("-") || is_token?("(")
@@ -182,7 +202,7 @@ module Stone
 
     def statement
       if is_token?("if")
-        token("if")
+        @lexer.read
         array = [expr, block]
         while is_eol?
           @lexer.read
@@ -190,6 +210,17 @@ module Stone
         if is_token?("else")
           token("else")
           array << block
+        end
+        Ast::IfStmnt.new(array)
+      elsif is_token?("もし")
+        @lexer.read
+        array = [expr, block_japanese]
+        while is_eol?
+          @lexer.read
+        end
+        if is_token?("または")
+          @lexer.read
+          array << block_japanese
         end
         Ast::IfStmnt.new(array)
       elsif is_token?("while")
@@ -211,8 +242,11 @@ module Stone
       end
       if is_eol?
         @lexer.read
+      elsif is_eof?
+        return result
       else
-        raise "Parse Exception in parse"
+        t = @lexer.peek(0)
+        raise "Parse Exception in parse: #{t}"
       end
       return result
     end
@@ -232,5 +266,10 @@ module Stone
     def is_eol?
       is_token?(";") || is_token?("\n")
     end
+
+    def is_eof?
+      @lexer.peek(0) == Stone::Token.EOF
+    end
+
   end
 end

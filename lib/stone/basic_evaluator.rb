@@ -59,7 +59,7 @@ module Stone
       def eval(env)
         op = self.operator
         # javaのequalsはRubyの==と同じ. 値が等しいかどうかを調べる.
-        if op == "="
+        if op == "=" || op == "は"
           right = self.right.eval(env)
           return compute_assign(env, right)
         else
@@ -108,6 +108,13 @@ module Stone
           when "<"
             # if a < b then return TRUE else return FALSE end
             a < b ? TRUE : FALSE
+          # てきとーに日本語追加
+          when "足す" then return a + b
+          when "引く" then return a - b
+          when "かける" then return a * b
+          when "割る" then return a / b
+          when "あまり" then return a % b
+          when "イコール" then a == b ? TRUE : FALSE
           else
             # 例外処理
         end

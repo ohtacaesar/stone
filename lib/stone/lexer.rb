@@ -12,7 +12,7 @@ module Stone
       @patterns[:comment] = /(\s*)(\/\/.*)/
       @patterns[:number]  = /(\s*)([0-9]+)/
       @patterns[:string]  = /(\s*)("(\"|\\|\n|[^"])*\")/
-      @patterns[:id]      = /(\s*)([A-Z_a-z][A-Z_a-z0-9]*|,|;|\(|\)|{|}|==|>|<|<=|>=|&&|\|\||=|\+|-|\*|\/)/
+      @patterns[:id]      = /(\s*)([ぁ-ん_ァ-ヴ_一-龠ー]+|[A-Z_a-z][A-Z_a-z0-9]*|,|;|\(|\)|{|}|==|>|<|<=|>=|&&|\|\||=|\+|-|\*|\/)/
     end
 
     def set_reader(reader)
@@ -59,7 +59,7 @@ module Stone
       while string_scanner.rest?
         # patternのいずれにもマッチしないでeach文が終わるとmatch_flagがfalseのままなので
         # エラーを発生させる
-        raise "Error not much" unless match_flag
+        raise "Error not much, #{string_scanner.inspect}" unless match_flag
         match_flag = false
         @patterns.each do |key, value|
           if item = string_scanner.scan(value)
