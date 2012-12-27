@@ -1,0 +1,10 @@
+<h2>字句解析結果</h2>
+<ul class="unstyled">
+<% tokens.each_with_index do |token, i| %>
+ <li>Token[ <%= i %> ] => <%= token %></li>
+<% end %>
+</ul>
+
+<h2>構文解析結果</h2>
+<p class="lead"><%= tree.to_string  %></p>
+<a href='/'>戻る</a>

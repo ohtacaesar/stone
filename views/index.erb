@@ -1,0 +1,24 @@
+<div class="sample">
+  <button class="btn btn-small btn-primary" type="button" id="1">テストケース1</button>
+  <button class="btn btn-small btn-info" type="button" id="2">テストケース2</button>
+  <button class="btn btn-small btn-success" type="button" id="3">テストケース3</button>
+  <button class="btn btn-small btn-warning" type="button" id="4">テストケース4</button>
+  <button class="btn btn-small btn-danger" type="button" id="5">テストケース5</button>
+  <button class="btn btn-small btn-inverse" type="button" id="6">テストケース6</button>
+</div>
+
+<form action="/result" method="post">
+  <legend>コード入力フォーム</legend>
+  <textarea class="span5" rows="10" name="text" id="text"></textarea>
+  <br />
+  <input class="btn" type='submit' value='OK' />
+</form>
+
+<script>
+
+  $('.sample').each(function(){
+    $(this).click(function(){
+	// $('#).val("hoge");
+    });
+  });
+</script>
