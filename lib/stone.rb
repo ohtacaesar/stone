@@ -11,6 +11,7 @@ require 'stone/ast/expr'
 require 'stone/ast/parameter_list'
 require 'stone/ast/postfix'
 require 'stone/ast/arguments'
+require 'stone/ast/array_ref'
 
 require 'stone/basic_env'
 require 'stone/basic_evaluator'

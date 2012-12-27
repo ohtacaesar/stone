@@ -28,14 +28,13 @@ module Stone
 
     class StringLiteral
       def eval(env)
-        self.value
+        self.name
       end
     end
 
     class IdentifierLiteral
       def eval(env)
         value = env.get(self.name)
-
         if value == nil
           # 例外処理
         else
@@ -71,13 +70,25 @@ module Stone
 
       def compute_assign(env, rvalue)
         l = self.left()
-        # 教科書ではNameクラスだけどIdentifierLiteralクラスにしてる
-        # ast/number_literal.rb
-        if l.kind_of?(IdentifierLiteral)
-          env.put(l.name, rvalue)
-          rvalue
-        else
-          # 例外処理
+        if l.kind_of?(PrimaryExpr)
+          p = l
+          if p.has_postfix(0) && p.postfix(0).kind_of?(ArrayRef)
+            a = l.eval_sub_expr(env, 1)
+            if a.kind_of?(Array)
+              aref = p.postfix(0)
+              index = aref.index.eval(env)
+              if index.kind_of?(Integer)
+                a[index] = rvalue
+                rvalue
+              end
+            end
+            # bad array access
+          elsif p.operand.kind_of?(IdentifierLiteral)
+            env.put(p.operand.name, rvalue)
+            rvalue
+          else
+            # 例外処理
+          end
         end
       end
 
@@ -233,5 +244,35 @@ module Stone
         env.put(name(index), value)
       end
     end
+
+    class ArrayLiteral
+      def eval(env)
+        s = num_children
+        res = Array.new(s)
+        i = 0
+        
+        self.children.each do |tree|
+          res[i] = tree.eval(env)
+          i += 1
+        end
+
+        res
+      end
+    end
+    
+    class ArrayRef
+      def eval(env, value)
+        if value.kind_of?(Array)
+          index_num = index.eval(env)
+          puts index_num
+          if index_num.kind_of?(Integer)
+            value[index_num]
+          end
+        else
+          # bad array access
+        end
+      end      
+    end
   end
 end
+  
