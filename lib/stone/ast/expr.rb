@@ -42,6 +42,7 @@ module Stone
       def self.create(array)
         array.size == 1 ? array[0] : PrimaryExpr.new(array)
       end
+
     end
   end
 end
