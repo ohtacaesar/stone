@@ -31,5 +31,19 @@ module Stone
         token.get_text
       end
     end
+
+    class ArrayLiteral < AstList
+      def initialize(list)
+        super(list)
+      end
+      
+      def size
+        num_children
+      end
+
+      def to_s
+        return "[#{self.children.join(', ')}]"
+      end
+    end
   end
 end

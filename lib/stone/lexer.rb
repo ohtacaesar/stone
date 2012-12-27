@@ -7,12 +7,11 @@ module Stone
       @queue    = Array.new
       @has_more = true
       @reader   = reader
-
       @patterns = Hash.new
       @patterns[:comment] = /(\s*)(\/\/.*)/
       @patterns[:number]  = /(\s*)([0-9]+)/
       @patterns[:string]  = /(\s*)("(\"|\\|\n|[^"])*\")/
-      @patterns[:id]      = /(\s*)([ぁ-ん_ァ-ヴ_一-龠ー]+|[A-Z_a-z][A-Z_a-z0-9]*|,|;|\(|\)|{|}|==|>|<|<=|>=|&&|\|\||=|\+|-|\*|\/)/
+      @patterns[:id]      = /(\s*)([ぁ-ん_ァ-ヴ_一-龠ー]+|[A-Z_a-z][A-Z_a-z0-9]*|,|;|\(|\)|\[|\]|{|}|==|>|<|<=|>=|&&|\|\||=|\+|-|\*|\/)/
     end
 
     def set_reader(reader)
