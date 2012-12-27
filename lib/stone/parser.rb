@@ -98,6 +98,7 @@ module Stone
       end
     end
 
+    # このままじゃ引数なし関数でエラーでるよ！
     def args
       array = []
       array << expr
@@ -109,16 +110,39 @@ module Stone
     end
 
     def postfix
-      raise "Parse Error in postfix" unless is_token?("(")
-      token("(")
-      result = args unless is_token?(")")
-      token(")")
+      if is_token?("(")
+        token("(")
+        result = args unless is_token?(")")
+        token(")")        
+      elsif is_token?("[")
+        token("[")
+        array = Array.new
+        array << expr
+        result = Ast::ArrayRef.new(array)
+        token("]")
+      else
+        raise "Parse Error in postfix"
+      end
       result
+    end
+    
+    def elements
+      array = Array.new
+      array << primary
+      while is_token?(",")
+        token(",")
+        array << primary
+      end
+      Ast::ArrayLiteral.new(array)
     end
 
     def primary
-      array = []
-      if is_token?("(")
+      array = Array.new
+      if is_token?("[")
+        token("[")
+        array << elements
+        token("]")
+      elsif is_token?("(")
         token("(")
         array << expr
         token(")")
@@ -134,18 +158,18 @@ module Stone
           raise "Parse Exception in primary"
         end
       end
-      while is_token?("(")
+      while is_token?("(") || is_token?("[")
         array << postfix
       end
-      array
+      Ast::PrimaryExpr.new(array)
     end
 
     def factor
       if is_token?("-")
         token("-")
-        Ast::NegativeExpr.new(primary)
+        Ast::NegativeExpr.new([primary])
       else
-        Ast::PrimaryExpr.create(primary)
+        primary
       end
     end
 
@@ -209,6 +233,7 @@ module Stone
           result = statement
         end
       end
+      
       if is_eol?
         @lexer.read
       else
