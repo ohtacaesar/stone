@@ -1,10 +1,20 @@
-<h2>字句解析結果</h2>
-<ul class="unstyled">
-<% tokens.each_with_index do |token, i| %>
- <li>Token[ <%= i %> ] => <%= token %></li>
+<h2>これが（入力内容）</h2>
+<pre>
+<% if inputs %>
+<% inputs.each do |input| %>                                                        
+<%= input %>
 <% end %>
-</ul>
+<% end %>
+</pre>
 
-<h2>構文解析結果</h2>
-<p class="lead"><%= tree.to_string  %></p>
+
+<h2>こうなる（実行結果）</h2>
+<p>
+<pre>
+<% result.each do |key, value| %>
+   <%= key %>
+   <%= value %>
+<% end %>
+</pre>
+
 <a href='/'>戻る</a>
