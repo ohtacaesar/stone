@@ -21,7 +21,7 @@ puts "\n##############"
 puts "## こうなる ##"
 puts "##############"
 while lexer.peek(0) != Stone::Token.EOF
-  p lexer.peek(0)
+  # p lexer.peek(0)
   tree = parser.parse
   puts tree
   if tree
