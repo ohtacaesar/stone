@@ -19,5 +19,6 @@ require 'stone/basic_evaluator'
 require 'stone/nested_env'
 require 'stone/function'
 
+require 'stone/natives'
 
 require 'stone/parser'

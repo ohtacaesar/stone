@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 module Stone
-  class BasicEnv
-    
+  class BasicEnv    
     def initialize
       @values = Hash.new
     end
