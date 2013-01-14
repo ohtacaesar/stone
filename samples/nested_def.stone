@@ -1,0 +1,11 @@
+def add(a, b) {
+ puts("hoge")
+ a + b
+}
+
+
+def add2(a, b) {
+  add(a, b)
+}
+
+add2(1, 2)
