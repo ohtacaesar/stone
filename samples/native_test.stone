@@ -1,0 +1,7 @@
+// hello, worldって出てほしい
+print("hello, world")
+
+puts("こんにちわ、世界")
+
+// オリジナル組み込み関数でござる
+www(10)

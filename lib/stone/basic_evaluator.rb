@@ -216,26 +216,45 @@ module Stone
 
     class Arguments
       def eval(caller_env, value)
-        unless value.kind_of?(Function)
-          # 例外投げるぽいよ
-        end
+        if value.kind_of?(NativeFunction)
+          # NativeFunctionだった場合の処理
+          func = value
+          nparams = func.num_of_params
+          unless self.size == nparams
+            raise "bad number of arguments"
+          end
+          
+          args = Array.new(nparams)
+          num = 0
+          self.children.each do |tree|
+            num += 1
+            args[num] = tree.eval(caller_env);
+          end
         
-        func = value
-        params = func.parameters
-        
-        unless self.size == params.size
-          # ここも例外投げるぽいよ
-        end
-        
-        new_env = func.make_env
-        num = 0
+          return func.call(args, self);
 
-        self.children.each do |tree|
-          params.eval(new_env, num, tree.eval(caller_env))
-          num += 1
-        end
+        elsif value.kind_of?(Function)
+          # 普通のFunctionだった場合の処理          
+          func = value
+          params = func.parameters
+          
+          unless self.size == params.size
+            # ここも例外投げるぽいよ
+          end
+          
+          new_env = func.make_env
+          num = 0
+          
+          self.children.each do |tree|
+            params.eval(new_env, num, tree.eval(caller_env))
+            num += 1
+          end
+          
+          return func.body.eval(new_env)
         
-        func.body.eval(new_env)
+        else
+          raise "謎のfunctionである。。。"
+        end
       end
     end
 
@@ -275,4 +294,4 @@ module Stone
     end
   end
 end
-  
+
