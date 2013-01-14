@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+# function.rbで利用
 module Stone
-  class NestedEnv
-    
+  class NestedEnv    
     def initialize(outer = nil)
       @values = Hash.new
       @outer = outer

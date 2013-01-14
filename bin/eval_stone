@@ -8,6 +8,10 @@ lexer  = Stone::Lexer.new(reader)
 parser = Stone::Parser.new(lexer)
 basic_env = Stone::BasicEnv.new
 
+# NativeFunctionの追加
+Stone::Natives.new.environment(basic_env)
+
+
 puts "############"
 puts "## これが ##"
 puts "############"

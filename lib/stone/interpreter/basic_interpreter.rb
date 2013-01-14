@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 module Stone
   module Interpreter
     class BasicInterpreter
