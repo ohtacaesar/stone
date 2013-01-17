@@ -33,6 +33,7 @@ post '/result' do input = params[:text]
   lexer  = Stone::Lexer.new(reader)
   parser = Stone::Parser.new(lexer)
   basic_env = Stone::BasicEnv.new
+  Stone::Natives.new.environment(basic_env)
   result = Hash.new
   while lexer.peek(0) != Stone::Token.EOF
     tree = parser.parse
