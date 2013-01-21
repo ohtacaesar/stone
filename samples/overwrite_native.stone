@@ -1,0 +1,8 @@
+// hello, worldって出てほしい
+print("hello, world")
+
+def print(str) {
+  str
+}
+
+print("hello, world");
