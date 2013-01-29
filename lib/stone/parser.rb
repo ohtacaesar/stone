@@ -87,8 +87,9 @@ module Stone
 
     def param_list
       raise "Parser Error in param_list" unless is_token?("(")
+      list = nil
       token("(")
-      list = params
+      list = params unless is_token?(")")
       token(")")
       list
     end
@@ -131,7 +132,7 @@ module Stone
       end
       result
     end
-    
+
     def elements
       array = Array.new
       array << primary
@@ -264,7 +265,7 @@ module Stone
           result = statement
         end
       end
-      
+
       if is_eol?
         @lexer.read
       elsif is_eof?
